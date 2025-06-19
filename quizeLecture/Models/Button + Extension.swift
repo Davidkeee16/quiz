@@ -10,12 +10,15 @@ import UIKit
 
 extension UIButton {
     
-    convenience init(title: String, titleColor: UIColor, border: CGColor, shadowColor: CGColor) {
+    convenience init(title: String, titleColor: UIColor = .systemBlue, borderWidth: CGFloat = 2, borderColor: CGColor = UIColor.systemBlue.cgColor) {
         self.init(type: .system)
         
         self.setTitle(title, for: .normal)
         self.setTitleColor(titleColor, for: .normal)
-        self.layer.borderColor = border
-        self.layer.shadowColor = shadowColor
+        self.layer.borderWidth = borderWidth
+        self.layer.borderColor = borderColor
+        
+        
     }
+    
 }

@@ -17,7 +17,8 @@ final class QuestionViewController: UIViewController {
     
     
     @IBOutlet weak var singleStackView: UIStackView!
-    @IBOutlet var singleButtons: [UIButton]!
+    let buttonsSingle = ButtonsSingle.createButton()
+    
     
     @IBOutlet weak var multipleStackView: UIStackView!
     @IBOutlet var multipleLabels: [UILabel]!
@@ -44,6 +45,11 @@ final class QuestionViewController: UIViewController {
         rangedSlider.value = count / 2
         
         
+        
+        MoveInStackView.inside(stackView: singleStackView, buttons: buttonsSingle)
+        singleButtonTarget()
+
+        
         updateUI()
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -52,13 +58,21 @@ final class QuestionViewController: UIViewController {
         resultVC.answers = answerChosen
     }
     
+    private func singleButtonTarget() {
+        for button in buttonsSingle {
+            button.addTarget(self, action: #selector(singleButtonPressed(_:)), for: .touchUpInside)
+        }
+    }
     
-    @IBAction func singleButtonAnswerPressed(_ sender: UIButton) {
+    @objc func singleButtonPressed(_ sender: UIButton) {
         
-        guard let buttonIndex = singleButtons.firstIndex(of: sender) else { return }
-        let answer = currentAnswers[buttonIndex]
-        answerChosen.append(answer)
-        nextQuestion()
+        
+        guard let buttonIndex = buttonsSingle.firstIndex(of: sender) else { return }
+               let answer = currentAnswers[buttonIndex]
+               answerChosen.append(answer)
+        
+        
+               nextQuestion()
     }
     
     @IBAction func multipleButtonPressed() {
@@ -111,10 +125,6 @@ final class QuestionViewController: UIViewController {
     }
     private func showSingleStackView(with answers: [Answer]) {
         singleStackView.isHidden = false
-        
-        for (button, answer) in zip(singleButtons, answers) {
-            button.setTitle(answer.title, for: .normal)
-        }
     }
     
     private func showMultipleStackView(with answers: [Answer]) {

@@ -27,7 +27,8 @@ struct Question {
                     Answer(title: "Стейк", animal: .dog),
                     Answer(title: "Рыба", animal: .cat),
                     Answer(title: "Морковь", animal: .rabbit),
-                    Answer(title: "Кукуруза", animal: .turtle)
+                    Answer(title: "Кукуруза", animal: .turtle),
+                    Answer(title: "Отбросы", animal: .racoon)
                 ]
              ),
             Question(
@@ -73,6 +74,7 @@ enum Animal: Character {
     case cat = "🐱"
     case turtle = "🐢"
     case rabbit = "🐰"
+    case racoon = "🦝"
     
     
     var definition: String {
@@ -86,6 +88,8 @@ enum Animal: Character {
             return "Ваша сила - в мудрости. Медленный и вдумчивый выигрывает на больших дистанциях."
         case .rabbit:
             return "Вам нравится все мягкое. Вы здоровы и полны энергии."
+        case .racoon:
+            return "Вы раздолбай"
         }
     }
 }
