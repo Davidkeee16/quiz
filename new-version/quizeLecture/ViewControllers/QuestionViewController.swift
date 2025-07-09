@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Foundation
+
 
 final class QuestionViewController: UIViewController {
 
@@ -19,7 +19,7 @@ final class QuestionViewController: UIViewController {
     @IBOutlet weak var singleStackView: UIStackView!
     let buttonsSingle = AnswerMethods.createButtonsSingle()
     
-    
+        
     @IBOutlet weak var multipleStackView: UIStackView!
     let multipleAnswers = AnswerMethods.createMultipleAnswers()
     let multipleButton = AnswerMethods.createMultipleAcceptButton()
@@ -27,6 +27,8 @@ final class QuestionViewController: UIViewController {
     @IBOutlet weak var rangedStackView: UIStackView!
     @IBOutlet var rangedLabels: [UILabel]!
     @IBOutlet weak var rangedSlider: UISlider!
+    let currentSliderValueLabel = UILabel()
+    
     
     private let questions = Question.getQuestions()
     private var answerChosen: [Answer] = []
@@ -45,11 +47,17 @@ final class QuestionViewController: UIViewController {
         rangedSlider.value = count / 2
         
         
-        MoveInStackView.forMultipleAnswer(stackView: multipleStackView, labelsAndSwitches: multipleAnswers)
+        
+        
+        viewFrames()
         MoveInStackView.forSingleAnswer(stackView: singleStackView, buttons: buttonsSingle)
         singleButtonTarget()
         switchTargetsChoosen()
         multipleStackView.addArrangedSubview(multipleButton)
+        
+    
+        rangedStackView.insertArrangedSubview(currentSliderValueLabel, at: 0)
+        
         
         
 
@@ -57,10 +65,28 @@ final class QuestionViewController: UIViewController {
         updateUI()
     }
     
-    func setupViews() {
+    func viewFrames() {
         
-       
+        singleStackView.translatesAutoresizingMaskIntoConstraints = false
+        multipleStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            singleStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
+            singleStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80),
+            singleStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            singleStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        
+        
+        for (answer, switches) in multipleAnswers {
+            let stackView = UIStackView(arrangedSubviews: [answer, switches], axis: .horizontal, spacing: 10)
+            multipleStackView.addArrangedSubview(stackView)
+        }
+        
+        
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -71,6 +97,8 @@ final class QuestionViewController: UIViewController {
     private func singleButtonTarget() {
         for button in buttonsSingle {
             button.addTarget(self, action: #selector(singleButtonPressed(_:)), for: .touchUpInside)
+            
+            
         }
     }
     
@@ -101,6 +129,12 @@ final class QuestionViewController: UIViewController {
             }
         }
         nextQuestion()
+    }
+    @IBAction func sliderMoved(_ sender: Any) {
+        
+        let index = Int(rangedSlider.value)
+        currentSliderValueLabel.text = currentAnswers[index].title
+        
     }
     
     @IBAction func rangedAnswerButtonPressed() {
@@ -156,8 +190,11 @@ final class QuestionViewController: UIViewController {
     private func showRangedStackView(with answers: [Answer]) {
         rangedStackView.isHidden = false
         
+        
         rangedLabels.first?.text = answers.first?.title
         rangedLabels.last?.text = answers.last?.title
+        
+        
     }
     
     

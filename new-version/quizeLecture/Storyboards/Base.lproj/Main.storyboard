@@ -104,6 +104,9 @@
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5Ce-lr-69p">
                                         <rect key="frame" x="-2" y="0.0" width="324" height="31"/>
+                                        <connections>
+                                            <action selector="sliderMoved:" destination="obA-au-M7E" eventType="valueChanged" id="iYu-YZ-fe7"/>
+                                        </connections>
                                     </slider>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="204" translatesAutoresizingMaskIntoConstraints="NO" id="N6M-OP-ymN">
                                         <rect key="frame" x="16.5" y="46" width="287" height="20.5"/>

@@ -9,13 +9,14 @@ import Foundation
 import UIKit
 
 
-struct MoveInStackView {
+class MoveInStackView: UIView {
     
     
     static func forSingleAnswer(stackView: UIStackView, buttons: [UIButton]) {
         
         for button in buttons {
             stackView.addArrangedSubview(button)
+        
         }
     }
     static func forMultipleAnswer(stackView: UIStackView, labelsAndSwitches: [UILabel: UISwitch]) {
